@@ -1,0 +1,6 @@
+__data__/*
+__geo__/*
+!__data__/*.md
+__pycache__
+.ipynb_checkpoints/*
+.DS_Store
