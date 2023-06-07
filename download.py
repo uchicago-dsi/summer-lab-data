@@ -57,10 +57,9 @@ class Downloader:
       print("File not found -- make sure to include the extension, like 'states.gpkg'")
       return
  
-    markdown_url = f"{self.docs_url}{file['name']}.readme.md"
+    markdown_url = f"{self.docs_url}{file['file_link']}.readme.md"
     # clear urllib cache
     urllib.request.urlcleanup()
-
     # fetch the markdown url 
     with urllib.request.urlopen(markdown_url) as response:
       readme = response.read()
