@@ -5,6 +5,8 @@ from IPython.display import display, Markdown, Latex
 # %%
 
 base_url = "https://d2nnsrwhv0jum3.cloudfront.net/"
+docs_url = "https://raw.githubusercontent.com/uchicago-dsi/summer-lab-data/main/__data__/"
+
 default_data_dir = './__data__/'
 files = [
    {
@@ -28,10 +30,11 @@ files = [
 # %%
 
 class Downloader:
-  def __init__(self, files=files, data_path: str=default_data_dir, base_url: str = base_url):
+  def __init__(self, files=files, data_path: str=default_data_dir, base_url: str = base_url, docs_url: str = docs_url):
     self.data_path = data_path
     self.base_url = base_url
     self.files = files
+    self.docs_url = docs_url
 
   def download(self, url: str, file_name: str):
       urllib.request.urlretrieve(url, file_name)
@@ -39,7 +42,6 @@ class Downloader:
   def download_all(self):
     for file in tqdm(self.files):
       self.download(f"{self.base_url}{file['file_link']}", f"{self.data_path}{file['name']}")
-      self.download(f"{self.base_url}{file['file_link']}.readme.md", f"{self.data_path}{file['name']}.readme.md")
     
     files_downloaded = [file['name'] for file in self.files]
     display(Markdown(f"Files downloaded: {', '.join(files_downloaded)}"))
@@ -50,9 +52,12 @@ class Downloader:
     if file is None:
       print("File not found -- make sure to include the extension, like 'states.gpkg'")
       return
-    # open the file from the data directory
-    with open(f"{self.data_path}{file['name']}.readme.md", 'rb') as readme:
-      display(Markdown(readme.read().decode('utf-8')))
+ 
+    markdown_url = f"{self.docs_url}{file['name']}.readme.md"
+    # fetch the markdown url
+    with urllib.request.urlopen(markdown_url) as response:
+      readme = response.read()
+      display(Markdown(readme.decode('utf-8')))
 
 # %%
 default_downloader = Downloader()
