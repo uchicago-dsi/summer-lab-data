@@ -1,13 +1,17 @@
 # %%
-import urllib.request
+import urllib
 from tqdm import tqdm
+import os
 from IPython.display import display, Markdown, Latex
+# %%
+#  get current path on file system
+current_path = os.path.dirname(os.path.realpath(__file__))
 # %%
 
 base_url = "https://d2nnsrwhv0jum3.cloudfront.net/"
 docs_url = "https://raw.githubusercontent.com/uchicago-dsi/summer-lab-data/main/__data__/"
 
-default_data_dir = './__data__/'
+default_data_dir = current_path + '/__data__/'
 files = [
    {
       "name": "states.gpkg",
@@ -54,7 +58,10 @@ class Downloader:
       return
  
     markdown_url = f"{self.docs_url}{file['name']}.readme.md"
-    # fetch the markdown url
+    # clear urllib cache
+    urllib.request.urlcleanup()
+
+    # fetch the markdown url 
     with urllib.request.urlopen(markdown_url) as response:
       readme = response.read()
       display(Markdown(readme.decode('utf-8')))
@@ -67,6 +74,11 @@ def data_help(file: str):
 
 def download_files():
   default_downloader.download_all()
+
+# list all files with full puth
+file_list = {}
+for file in default_downloader.files:
+  file_list[file['name']] = f"{default_data_dir}{file['name']}"
 # %%
 if __name__ == "__main__":
   download_files()
