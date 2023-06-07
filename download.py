@@ -15,19 +15,19 @@ default_data_dir = current_path + '/__data__/'
 files = [
    {
       "name": "states.gpkg",
-      "file_link": "states_2019_simplified100_wgs84.gpkg",
+      "file_link": "states_2021_simplified_wgs84.gpkg",
    },
    {
       "name": "counties.gpkg",
-      "file_link": "counties.gpkg",
+      "file_link": "counties_2021_simplified_wgs84.gpkg",
    },
    {
       "name": "tracts.gpkg",
-      "file_link": "tracts.gpkg",
+      "file_link": "tracts_2021_simplified_wgs84.gpkg",
    },
    {
       "name": "zcta.gpkg",
-      "file_link": "zcta.gpkg",
+      "file_link": "zcta_2021_simplified_wgs84.gpkg",
    }
 ]
 
@@ -82,4 +82,3 @@ for file in default_downloader.files:
 # %%
 if __name__ == "__main__":
   download_files()
-# %%
